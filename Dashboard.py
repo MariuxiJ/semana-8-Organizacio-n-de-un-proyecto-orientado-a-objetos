@@ -1,6 +1,28 @@
 import os
 import subprocess
 
+# Gestión de Configuración y Encapsulamiento
+class GestorConfiguracion:
+    def __init__(self):
+        # He aplicado encapsulamiento privado para los datos del sistema
+        self.__sistema = "Dashboard de Gestión"
+        self.__version = "2.0"
+
+    def obtener_encabezado(self):
+        # Método para devolver la identidad del sistema
+        return f"--- {self.__sistema} | Versión {self.__version} ---"
+
+# Manejo de Directorios (Modularidad)
+class GestorArchivos:
+    def __init__(self):
+        # Defino la ruta base como atributo protegido
+        self._ruta_proyecto = os.path.dirname(__file__)
+
+    def mostrar_estado_proyecto(self):
+        # Este método confirma la organización física del proyecto
+        print(f"Ruta de trabajo identificada: {self._ruta_proyecto}")
+        print("Módulos de Unidad 1 y Unidad 2 cargados.")
+
 def mostrar_codigo(ruta_script):
     # Asegúrate de que la ruta al script es absoluta
     ruta_script_absoluta = os.path.abspath(ruta_script)
@@ -110,7 +132,18 @@ def mostrar_scripts(ruta_sub_carpeta):
             except ValueError:
                 print("Opción no válida. Por favor, intenta de nuevo.")
 
-# Ejecutar el dashboard
 if __name__ == "__main__":
+    # 1. Instanciación: Aquí creo los objetos de mis clases (Semana 6)
+    configuracion = GestorConfiguracion()
+    proyecto = GestorArchivos()
+    
+    # 2. Ejecución: Muestro mis adaptaciones técnicas antes del menú
+    # Uso el método de mi clase para mostrar el encabezado encapsulado
+    print(configuracion.obtener_encabezado())
+    
+    # Uso mi segunda clase para mostrar la ruta de trabajo
+    proyecto.mostrar_estado_proyecto()
+    
+    # 3. Llamo al menú principal que ya existía
     mostrar_menu()
 

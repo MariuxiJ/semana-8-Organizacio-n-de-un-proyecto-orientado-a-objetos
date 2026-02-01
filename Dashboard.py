@@ -54,10 +54,19 @@ class GestorArchivos:
         return encontrados
 
 def mostrar_codigo(ruta_script):
+    
     ruta_script_absoluta = os.path.abspath(ruta_script)
+
+    """
+    Se añadió manejo de codificación UTF-8 
+    y numeración de líneas para una lectura más técnica.
+    """
     try:
+        # Cambio: Se agregó encoding='utf-8' para evitar errores con tildes y caracteres especiales
         with open(ruta_script_absoluta, 'r', encoding='utf-8') as archivo:
             print(f"\n--- Visualizando: {ruta_script} ---")
+            # Cambio: Se implementó un bucle con enumerate() para mostrar números de línea
+            # Esto mejora la legibilidad comparado con el print() directo anterior
             for i, linea in enumerate(archivo, start=1):
                 # Imprime el número de línea seguido del contenido
                 print(f"{i} | {linea}", end="")

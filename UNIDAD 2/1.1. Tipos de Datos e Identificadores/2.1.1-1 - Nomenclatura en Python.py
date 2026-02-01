@@ -23,4 +23,4 @@ mi_tesla = VehiculoElectrico("Tesla", "Model 3")
 distancia = calcular_distancia(3.5, MAX_ENERGIA)
 
 print(mi_tesla.mostrar_informacion())
-print(f"Distancia máxima posible: {distancia} km")
+

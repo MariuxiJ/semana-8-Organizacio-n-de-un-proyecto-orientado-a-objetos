@@ -1,37 +1,73 @@
 import os
 import subprocess
 
-# Gestión de Configuración y Encapsulamiento
 class GestorConfiguracion:
     def __init__(self):
-        # He aplicado encapsulamiento privado para los datos del sistema
-        self.__sistema = "Dashboard de Gestión"
-        self.__version = "2.0"
+        # Identificadores y Tipos de Datos (String, Float)
+        # Encapsulamiento Privado (__)
+        self.__sistema = "Dashboard Académico Pro"
+        self.__version = 3.5  # Dato tipo Float 
+        self.__estudiante = "Mariuxi Shingre"
+        #Estructuras Lógicas (Operadores de asignación)
+        self.inicio_sesion = os.path.getctime(__file__) 
 
     def obtener_encabezado(self):
-        # Método para devolver la identidad del sistema
-        return f"--- {self.__sistema} | Versión {self.__version} ---"
+        # Operadores de Formato y Strings
+        # Aplicamos Abstracción para mostrar un diseño profesional
+        raya = "=" * 60  # Operador de repetición 
+        return f"{raya}\n  {self.__sistema.upper()} | VERSIÓN: {self.__version}\n  USUARIO: {self.__estudiante}\n{raya}"
 
-# Manejo de Directorios (Modularidad)
 class GestorArchivos:
     def __init__(self):
-        # Defino la ruta base como atributo protegido
-        self._ruta_proyecto = os.path.dirname(__file__)
+        # Atributo Protegido (_)
+        self._ruta_base = os.path.dirname(__file__)
 
     def mostrar_estado_proyecto(self):
-        # Este método confirma la organización física del proyecto
-        print(f"Ruta de trabajo identificada: {self._ruta_proyecto}")
-        print("Módulos de Unidad 1 y Unidad 2 cargados.")
+        # Flujos de Control (Bucles y Condicionales)
+        print(f"\n[SISTEMA] Escaneando ruta: {self._ruta_base}")
+        
+        # Usamos una lista para iterar
+        for i in [1, 2]:
+            u_path = os.path.join(self._ruta_base, f"Unidad {i}")
+            
+            # Estructura condicional IF/ELSE
+            if os.path.exists(u_path):
+                
+                temas = [f for f in os.scandir(u_path) if f.is_dir()]
+                cantidad = len(temas)
+                # Operadores Relacionales (Comparación)
+                estado = "COMPLETO" if cantidad > 0 else "VACÍO"
+                print(f"   > Unidad {i}: {cantidad} temas ({estado})")
+            else:
+                print(f"   > Unidad {i}: No localizada.")
+
+    def buscar_script_especifico(self, nombre_buscado):
+        # Modularidad y Refactorización
+        # Aplicamos búsqueda lógica y métodos de String 
+        print(f"\n[BUSCADOR] Rastreando coincidencia para: '{nombre_buscado}'...")
+        encontrados = []
+        for raiz, dirs, archivos in os.walk(self._ruta_base):
+            for archivo in archivos:
+                # Métodos de String (.lower) y Operadores Lógicos (and)
+                if nombre_buscado.lower() in archivo.lower() and archivo.endswith('.py'):
+                    encontrados.append(os.path.join(raiz, archivo))
+        return encontrados
 
 def mostrar_codigo(ruta_script):
-    # Asegúrate de que la ruta al script es absoluta
     ruta_script_absoluta = os.path.abspath(ruta_script)
     try:
-        with open(ruta_script_absoluta, 'r') as archivo:
-            codigo = archivo.read()
-            print(f"\n--- Código de {ruta_script} ---\n")
-            print(codigo)
-            return codigo
+        with open(ruta_script_absoluta, 'r', encoding='utf-8') as archivo:
+            print(f"\n--- Visualizando: {ruta_script} ---")
+            for i, linea in enumerate(archivo, start=1):
+                # Imprime el número de línea seguido del contenido
+                print(f"{i} | {linea}", end="")
+            return True
+    except FileNotFoundError:
+        print("Error: El archivo no se encontró.")
+        return None
+    except Exception as e:
+        print(f"Ocurrió un error al leer el archivo: {e}")
+        return None
     except FileNotFoundError:
         print("El archivo no se encontró.")
         return None
@@ -49,24 +85,22 @@ def ejecutar_codigo(ruta_script):
         print(f"Ocurrió un error al ejecutar el código: {e}")
 
 def mostrar_menu():
-    # Define la ruta base donde se encuentra el dashboard.py
     ruta_base = os.path.dirname(__file__)
-
-    unidades = {
-        '1': 'Unidad 1',
-        '2': 'Unidad 2'
-    }
+    unidades = {'1': 'Unidad 1', '2': 'Unidad 2'}
 
     while True:
-        print("\nMenu Principal - Dashboard")
-        # Imprime las opciones del menú principal
+        print("\n" + "="*35)
+        print("   MENU PRINCIPAL - DASHBOARD")
+        print("="*35)
+        
         for key in unidades:
             print(f"{key} - {unidades[key]}")
         print("0 - Salir")
 
-        eleccion_unidad = input("Elige una unidad o '0' para salir: ")
+        eleccion_unidad = input("\nElige una unidad o '0' para salir: ")
+        
         if eleccion_unidad == '0':
-            print("Saliendo del programa.")
+            print("Cerrando el sistema. ¡Hasta luego!")
             break
         elif eleccion_unidad in unidades:
             mostrar_sub_menu(os.path.join(ruta_base, unidades[eleccion_unidad]))
@@ -133,17 +167,19 @@ def mostrar_scripts(ruta_sub_carpeta):
                 print("Opción no válida. Por favor, intenta de nuevo.")
 
 if __name__ == "__main__":
-    # 1. Instanciación: Aquí creo los objetos de mis clases (Semana 6)
+    #Instanciación de los objetos con nombres descriptivos 
     configuracion = GestorConfiguracion()
     proyecto = GestorArchivos()
     
-    # 2. Ejecución: Muestro mis adaptaciones técnicas antes del menú
-    # Uso el método de mi clase para mostrar el encabezado encapsulado
+    # Mostramos el encabezado y el estado del proyecto
+    # Esto usa el encapsulamiento para proteger  nombre y versión
     print(configuracion.obtener_encabezado())
-    
-    # Uso mi segunda clase para mostrar la ruta de trabajo
     proyecto.mostrar_estado_proyecto()
     
-    # 3. Llamo al menú principal que ya existía
+    # Mensaje de control de flujo para el usuario
+    print("\n[SISTEMA] Iniciando navegación de carpetas...")
+    
+    # Llamamos al menú principal para que el programa empiece a funcionar
     mostrar_menu()
+
 
